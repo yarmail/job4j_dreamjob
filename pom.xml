@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Проект начат 2022-02. Тренировка Tomcat, Servlet, JSP... -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -9,13 +8,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ru.job4j</groupId>
     <name>job4j_dreamjob</name>
+    <description>Practice Tomcat, Servlet, JSP..., start in 2022</description>
 	<artifactId>job4j_dreamjob</artifactId>
 	<version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 	
 	<properties>
-        <maven.compiler.source>16</maven.compiler.source>
-        <maven.compiler.target>16</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 	

@@ -2,7 +2,7 @@
 language: java
 
 # указываем текущую версию jdk: например openjdk8 или oraclejdk14
-jdk: oraclejdk16
+jdk: openjdk17
 
 # используем режим обычного пользователя для сборки проекта.
 sudo: false
