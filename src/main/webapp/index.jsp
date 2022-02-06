@@ -1,13 +1,18 @@
 <%--
-  Created by IntelliJ IDEA.
-  User: 01-2017
-  Date: 05.02.2022
-  Time: 20:49
+    Примечания:
   To change this template use File | Settings | File Templates.
+  ----
+  Не рекомендуется использовать пакет по умолчанию,
+  (голый класс без пакета)
+  Объвление класса внутри JSP запрещено
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="store.Store"%>
+<%@ page import="model.Post" %>
+
 <!doctype html>
 <html lang="en">
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -23,38 +28,26 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-    <title>Работа мечты!</title>
+    <title>Работа мечты</title>
 </head>
 <body>
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-    </tr>
-    <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-    </tr>
-    <tr>
-        <th scope="row">3</th>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
-    </tr>
-    </tbody>
-</table>
+<div class="container">
+    <div class="row">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Объявления</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% for (Post post: Store.instOf().findAll()) { %>
+            <tr>
+                <td><%= post.getName() %></td>
+            </tr>
+            <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 </html>
