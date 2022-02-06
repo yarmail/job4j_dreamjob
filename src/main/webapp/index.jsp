@@ -1,10 +1,17 @@
 <%--
-    Примечания:
-  To change this template use File | Settings | File Templates.
-  ----
-  Не рекомендуется использовать пакет по умолчанию,
-  (голый класс без пакета)
-  Объвление класса внутри JSP запрещено
+Примечания:
+To change this template use File | Settings | File Templates.
+----
+Не рекомендуется использовать пакет по умолчанию,
+(голый класс без пакета)
+Объвление класса внутри JSP запрещено
+----
+Для правильной загрузки ссылки используется элемент скриплета.
+<a class="nav-link" href="<%=request.getContextPath()%>/posts.jsp">Вакансии</a>
+Если его не указать, то адрес будет ссылаться на корень сервера http://localhost:8080/posts.jsp. Это не верно.
+Нам нужно http://localhost:8080/dreamjob/posts.jsp
+Откуда появился объект request? Это объект доступен в любой jsp. Он позволяет получить информацию о сервере.
+Здесь мы получаем адрес расположения приложения. /dreamjob
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="store.Store"%>
@@ -12,7 +19,6 @@
 
 <!doctype html>
 <html lang="en">
-
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -33,20 +39,14 @@
 <body>
 <div class="container">
     <div class="row">
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">Объявления</th>
-            </tr>
-            </thead>
-            <tbody>
-            <% for (Post post: Store.instOf().findAll()) { %>
-            <tr>
-                <td><%= post.getName() %></td>
-            </tr>
-            <% } %>
-            </tbody>
-        </table>
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/posts.jsp">Вакансии</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/candidates.jsp">Кандидаты</a>
+            </li>
+        </ul>
     </div>
 </div>
 </body>
