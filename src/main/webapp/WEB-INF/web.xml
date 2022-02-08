@@ -17,6 +17,7 @@ http://localhost:8080/dreamjob/post/save,
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
     <display-name>Archetype Created Web Application</display-name>
+
     <servlet>
         <servlet-name>PostServlet</servlet-name>
         <servlet-class>servlet.PostServlet</servlet-class>
@@ -26,5 +27,14 @@ http://localhost:8080/dreamjob/post/save,
         <url-pattern>/post/save</url-pattern>
     </servlet-mapping>
 
+<!--       -->
 
+    <servlet>
+        <servlet-name>CandidateServlet</servlet-name>
+        <servlet-class>servlet.CandidateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CandidateServlet</servlet-name>
+        <url-pattern>/candidate/save</url-pattern>
+    </servlet-mapping>
 </web-app>
