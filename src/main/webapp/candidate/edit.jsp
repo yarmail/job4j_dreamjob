@@ -8,7 +8,6 @@ To change this template use File | Settings | File Templates.
 ------
 У нас получилась форма для ввода данных.
 Кнопка в HTML описывается тем же тегом button.
-java
 <button type="submit" class="btn btn-primary">Сохранить</button>
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -39,7 +38,7 @@ java
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Новая вакансия.
+                Новый кандидат.
             </div>
             <div class="card-body">
                 <form>
