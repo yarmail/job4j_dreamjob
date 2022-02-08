@@ -9,6 +9,12 @@ To change this template use File | Settings | File Templates.
 У нас получилась форма для ввода данных.
 Кнопка в HTML описывается тем же тегом button.
 <button type="submit" class="btn btn-primary">Сохранить</button>
+------
+А как edit.jsp узнает куда отправлять данные?
+Чтобы JSP отправляла данные на сервер нужно
+в теге form указать адрес сервлета.
+(добавляем action в тег form)
+
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="store.Store"%>
@@ -41,10 +47,10 @@ To change this template use File | Settings | File Templates.
                 Новая вакансия.
             </div>
             <div class="card-body">
-                <form>
+                <form action="<%=request.getContextPath()%>/post/save" method="post">
                     <div class="form-group">
                         <label>Имя</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" name="name">
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </form>

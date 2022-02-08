@@ -7,13 +7,17 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Хранилище вакансий
- * Синглтон
+ * Хранилище вакансий - Синглтон
+ *
+ * Ключ для генерации ID
+ * private static AtomicInteger POST_ID = new AtomicInteger(4);
  */
 public class Store {
     private static final Store INST = new Store();
+    private static AtomicInteger postId = new AtomicInteger(4);
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
 
@@ -36,5 +40,14 @@ public class Store {
 
     public Collection<Candidate> findAllCandidates() {
         return candidates.values();
+    }
+
+    /**
+     * incrementAndGet - возвращает значение после
+     * выполнения операции приращения к предыдущему значению
+     */
+    public void save(Post post) {
+        post.setId(postId.incrementAndGet());
+        posts.put(post.getId(), post);
     }
 }
