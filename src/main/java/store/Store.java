@@ -27,8 +27,8 @@ public class Store {
         posts.put(2, new Post(2, "Middle Java Job", "desc", new Date()));
         posts.put(3, new Post(3, "Senior Java Job", "desc", new Date()));
         candidates.put(1, new Candidate(1, "Junior Java"));
-        candidates.put(2, new Candidate(1, "Middle Java"));
-        candidates.put(3, new Candidate(1, "Senior Java"));
+        candidates.put(2, new Candidate(2, "Middle Java"));
+        candidates.put(3, new Candidate(3, "Senior Java"));
     }
 
     public static Store instOf() {
@@ -47,13 +47,25 @@ public class Store {
      * incrementAndGet - возвращает значение после
      * выполнения операции приращения к предыдущему значению
      */
+    public Post findByIdPost(int id) {
+        return posts.get(id);
+    }
+
     public void savePost(Post post) {
-        post.setId(postId.incrementAndGet());
+        if (post.getId() == 0) {
+            post.setId(postId.incrementAndGet());
+        }
         posts.put(post.getId(), post);
     }
 
+    public Candidate findByIdCandidate(int id) {
+        return candidates.get(id);
+    }
+
     public void saveCandidate(Candidate candidate) {
-        candidate.setId(candidateId.incrementAndGet());
+        if (candidate.getId() == 0) {
+            candidate.setId(candidateId.incrementAndGet());
+        }
         candidates.put(candidate.getId(), candidate);
     }
 }

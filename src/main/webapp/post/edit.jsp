@@ -1,20 +1,5 @@
 <%--
-Примечания
 To change this template use File | Settings | File Templates.
-------
-Элемент ввода описывается через тег input.
-Например:
-<input type="text" class="form-control">
-------
-У нас получилась форма для ввода данных.
-Кнопка в HTML описывается тем же тегом button.
-<button type="submit" class="btn btn-primary">Сохранить</button>
-------
-А как edit.jsp узнает куда отправлять данные?
-Чтобы JSP отправляла данные на сервер нужно
-в теге form указать адрес сервлета.
-(добавляем action в тег form)
-
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="store.Store"%>
@@ -37,20 +22,56 @@ To change this template use File | Settings | File Templates.
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
+<%--
+Примечания
+Элемент ввода описывается через тег input.
+Например:
+<input type="text" class="form-control">
+-----
+У нас получилась форма для ввода данных.
+Кнопка в HTML описывается тем же тегом button.
+<button type="submit" class="btn btn-primary">Сохранить</button>
+-----
+А как edit.jsp узнает куда отправлять данные?
+Чтобы JSP отправляла данные на сервер нужно
+в теге form указать адрес сервлета (action).
+-----
+Вначале мы проверяем параметр id.
+Если он есть, то мы редактируем вакансию.
+(?) if (id == null)
+-----
+В форму добавим id
+<input type="text" class="form-control" name="name" value="<%=post.getName()%>">
+-----
+В поле name загрузим имя.
+<input type="text" class="form-control" name="name" value="<%=post.getName()%>">
+--%>
+
     <title>Работа мечты</title>
 </head>
 <body>
+<%
+    String id = request.getParameter("id");
+    Post post = new Post(0, "");
+    if (id != null) {
+        post = Store.instOf().findByIdPost(Integer.valueOf(id));
+    }
+%>
 <div class="container pt-3">
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
+                <% if (id == null) { %>
                 Новая вакансия.
+                <% } else { %>
+                Редактирование вакансии.
+                <% } %>
             </div>
             <div class="card-body">
-                <form action="<%=request.getContextPath()%>/post/save" method="post">
+                <form action="<%=request.getContextPath()%>/post/save?id=<%=post.getId()%>" method="post">
                     <div class="form-group">
                         <label>Имя</label>
-                        <input type="text" class="form-control" name="name">
+                        <input type="text" class="form-control" name="name" value="<%=post.getName()%>">
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </form>

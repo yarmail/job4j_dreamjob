@@ -1,15 +1,3 @@
-<%--
-Примечания
-To change this template use File | Settings | File Templates.
-------
-Элемент ввода описывается через тег input.
-Например:
-<input type="text" class="form-control">
-------
-У нас получилась форма для ввода данных.
-Кнопка в HTML описывается тем же тегом button.
-<button type="submit" class="btn btn-primary">Сохранить</button>
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="store.Store"%>
 <%@ page import="model.Candidate" %>
@@ -34,17 +22,28 @@ To change this template use File | Settings | File Templates.
     <title>Работа мечты</title>
 </head>
 <body>
+<%
+    String id = request.getParameter("id");
+    Candidate candidate = new Candidate(0, "");
+    if (id != null) {
+        candidate = Store.instOf().findByIdCandidate(Integer.valueOf(id));
+    }
+%>
 <div class="container pt-3">
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Новый кандидат.
+                <% if (id == null) { %>
+                Новая вакансия.
+                <% } else { %>
+                Редактирование вакансии.
+                <% } %>
             </div>
             <div class="card-body">
-                <form action="<%=request.getContextPath()%>/candidate/save" method="post">
+                <form action="<%=request.getContextPath()%>/candidate/save?id=<%=candidate.getId()%>" method="post">
                     <div class="form-group">
                         <label>Имя</label>
-                        <input type="text" class="form-control" name="name">
+                        <input type="text" class="form-control" name="name" value="<%=candidate.getName()%>">
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </form>
