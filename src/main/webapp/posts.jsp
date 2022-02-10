@@ -1,10 +1,7 @@
-<%--
-    Примечания
-    To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ page import="store.Store"%>
 <%@ page import="model.Post" %>
+<%@ page import="java.util.Collection" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -24,6 +21,21 @@
     <!-- Библиотека иконок -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+<%--
+Примечания
+To change this template use File | Settings | File Templates.
++++++
+В сервлете PostServlet мы загружали в  request список вакансий.
+req.setAttribute("posts", Store.instOf().findAllPosts());
+Теперь их можно прочитать на JSP.
+Было:
+    for (Post post : Store.instOf().findAllPosts())
+Стало:
+    for (Post post : (Collection<Post>) request.getAttribute("posts")
+Теперь JSP ничего не знает о Store.
+
+--%>
+
     <title>Работа мечты</title>
 </head>
 <body>
@@ -42,7 +54,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <% for (Post post : Store.instOf().findAllPosts()) { %>
+                    <% for (Post post : (Collection<Post>) request.getAttribute("posts")) { %>
                     <tr>
                         <td>
                             <a href="<%=request.getContextPath()%>/post/edit.jsp?id=<%=post.getId()%>">

@@ -27,24 +27,28 @@ To change this template use File | Settings | File Templates.
 Элемент ввода описывается через тег input.
 Например:
 <input type="text" class="form-control">
------
++++++
 У нас получилась форма для ввода данных.
 Кнопка в HTML описывается тем же тегом button.
 <button type="submit" class="btn btn-primary">Сохранить</button>
------
++++++
 А как edit.jsp узнает куда отправлять данные?
 Чтобы JSP отправляла данные на сервер нужно
 в теге form указать адрес сервлета (action).
------
++++++
 Вначале мы проверяем параметр id.
 Если он есть, то мы редактируем вакансию.
 (?) if (id == null)
------
++++++
 В форму добавим id
 <input type="text" class="form-control" name="name" value="<%=post.getName()%>">
------
++++++
 В поле name загрузим имя.
 <input type="text" class="form-control" name="name" value="<%=post.getName()%>">
++++++
+Откройте edit.jsp и поправьте там ссылку тоже.
+Было: .../post/save; Стало... /posts.do
+
 --%>
 
     <title>Работа мечты</title>
@@ -68,7 +72,7 @@ To change this template use File | Settings | File Templates.
                 <% } %>
             </div>
             <div class="card-body">
-                <form action="<%=request.getContextPath()%>/post/save?id=<%=post.getId()%>" method="post">
+                <form action="<%=request.getContextPath()%>/posts.do?id=<%=post.getId()%>" method="post">
                     <div class="form-group">
                         <label>Имя</label>
                         <input type="text" class="form-control" name="name" value="<%=post.getName()%>">

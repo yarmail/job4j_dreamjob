@@ -1,18 +1,3 @@
-<%--
-Примечания:
-To change this template use File | Settings | File Templates.
-----
-Не рекомендуется использовать пакет по умолчанию,
-(голый класс без пакета)
-Объвление класса внутри JSP запрещено
-----
-Для правильной загрузки ссылки используется элемент скриплета.
-<a class="nav-link" href="<%=request.getContextPath()%>/posts.jsp">Вакансии</a>
-Если его не указать, то адрес будет ссылаться на корень сервера http://localhost:8080/posts.jsp. Это не верно.
-Нам нужно http://localhost:8080/dreamjob/posts.jsp
-Откуда появился объект request? Это объект доступен в любой jsp. Он позволяет получить информацию о сервере.
-Здесь мы получаем адрес расположения приложения. /dreamjob
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="store.Store"%>
 <%@ page import="model.Post" %>
@@ -34,6 +19,29 @@ To change this template use File | Settings | File Templates.
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
+<%--
+Примечания:
+To change this template use File | Settings | File Templates.
+++++
+Не рекомендуется использовать пакет по умолчанию,
+(голый класс без пакета)
+Объвление класса внутри JSP запрещено
+++++
+Для правильной загрузки ссылки используется элемент скриплета.
+<a class="nav-link" href="<%=request.getContextPath()%>/posts.jsp">Вакансии</a>
+Если его не указать, то адрес будет ссылаться на
+корень сервера http://localhost:8080/posts.jsp. Это не верно.
+Нам нужно http://localhost:8080/dreamjob/posts.jsp
+Откуда появился объект request? Это объект доступен в любой jsp.
+Он позволяет получить информацию о сервере.
+Здесь мы получаем адрес расположения приложения. /dreamjob
++++++
+На странице index.jsp нужно поправить ссылку.
+Теперь загрузка будет через Servlet.
+Было: .../posts.jsp; Стало... /posts.do
+
+--%>
+
     <title>Работа мечты</title>
 </head>
 <body>
@@ -41,10 +49,10 @@ To change this template use File | Settings | File Templates.
     <div class="row">
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/posts.jsp">Вакансии</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Вакансии</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/candidates.jsp">Кандидаты</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/candidates.do">Кандидаты</a>
             </li>
             </li>
             <li class="nav-item">
