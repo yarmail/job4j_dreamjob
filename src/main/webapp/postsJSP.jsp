@@ -1,15 +1,11 @@
 <%--
-Эта версия страницы переписана с jsp на jstl
-Старая версия оставлена для учебного примера
-
-Для подключения jstl подключаем в импорт
-taglib prefix="c" uri="http://java.sun.com/jstl/core"
-Сразу не заработало пришлось сделать другой импорт
-taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"
+Эта страница написана на обычном jsp
+есть другая версия этой страницы, переписанной на jstl
 --%>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ page import="store.Store"%>
+<%@ page import="model.Post" %>
+<%@ page import="java.util.Collection" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -31,16 +27,17 @@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"
 
 <%--
 Примечания
-Заменили цикл for на foreach(jstl)
-JSTL - это по сути HTML теги с загрузкой данных из request.
+To change this template use File | Settings | File Templates.
++++++
+В сервлете PostServlet мы загружали в  request список вакансий.
+req.setAttribute("posts", Store.instOf().findAllPosts());
+Теперь их можно прочитать на JSP.
+Было:
+    for (Post post : Store.instOf().findAllPosts())
+Стало:
+    for (Post post : (Collection<Post>) request.getAttribute("posts")
+Теперь JSP ничего не знает о Store.
 
-Переменная posts была загружена в PostServlet.
-<c:forEach items="${posts}" var="post">
-
-Вывод значения post.
-<c:out value="${post.name}"/>
-
-Обратите внимание. JSTL не требует писать полный синтаксис вызова get.
 --%>
 
     <title>Работа мечты</title>
@@ -61,16 +58,16 @@ JSTL - это по сути HTML теги с загрузкой данных и�
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${posts}" var="post">
-                        <tr>
-                            <td>
-                                <a href='<c:url value="/post/edit.jsp?id=${post.id}"/>'>
-                                    <i class="fa fa-edit mr-3"></i>
-                                </a>
-                                <c:out value="${post.name}"/>
-                            </td>
-                        </tr>
-                    </c:forEach>
+                    <% for (Post post : (Collection<Post>) request.getAttribute("posts")) { %>
+                    <tr>
+                        <td>
+                            <a href="<%=request.getContextPath()%>/post/edit.jsp?id=<%=post.getId()%>">
+                                <i class="fa fa-edit mr-3"></i>
+                            </a>
+                            <%=post.getName()%>
+                        </td>
+                    </tr>
+                    <% } %>
                     </tbody>
                 </table>
             </div>
