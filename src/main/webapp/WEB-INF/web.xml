@@ -14,6 +14,7 @@ http://localhost:8080/dreamjob/post/save,
 Изменим web.xml под общий формат.
 Было: url-pattern>/post/save</url-pattern>
 Стало:  <url-pattern>/posts.do</url-pattern>
+ea37
 -->
 
 <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
@@ -47,5 +48,41 @@ http://localhost:8080/dreamjob/post/save,
     <servlet-mapping>
         <servlet-name>CandidateServlet</servlet-name>
         <url-pattern>/candidates.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DownloadServlet</servlet-name>
+        <servlet-class>servlet.DownloadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DownloadServlet</servlet-name>
+        <url-pattern>/download</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UploadServlet</servlet-name>
+        <servlet-class>servlet.UploadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UploadServlet</servlet-name>
+        <url-pattern>/upload</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeleteServlet</servlet-name>
+        <servlet-class>servlet.DeleteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteServlet</servlet-name>
+        <url-pattern>/deleteImage</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UploadImageCandidateServlet</servlet-name>
+        <servlet-class>servlet.UploadImageCandidateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UploadImageCandidateServlet</servlet-name>
+        <url-pattern>/uploadImageCandidate</url-pattern>
     </servlet-mapping>
 </web-app>
