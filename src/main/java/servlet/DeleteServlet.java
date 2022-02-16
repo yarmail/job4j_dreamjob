@@ -1,5 +1,7 @@
 package servlet;
 
+import settings.Settings;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +16,7 @@ public class DeleteServlet extends HttpServlet {
         File fileToDelete = null;
         String nameForDelete = req.getParameter("id");
         System.out.printf("******" + nameForDelete);
-        for (File file: new File("c:/images/").listFiles()) {
+        for (File file: new File(Settings.getImagePath()).listFiles()) {
             if (nameForDelete.equals(file.getName())) {
                 fileToDelete = file.getAbsoluteFile();
             }

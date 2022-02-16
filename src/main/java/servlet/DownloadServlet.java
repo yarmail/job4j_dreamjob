@@ -1,5 +1,7 @@
 package servlet;
 
+import settings.Settings;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +41,7 @@ public class DownloadServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
         File downloadFile = null;
-        for (File file : new File("c:\\images\\").listFiles()) {
+        for (File file: new File(Settings.getImagePath()).listFiles()) {
             if (name.equals(file.getName())) {
                 downloadFile = file;
                 break;

@@ -22,7 +22,7 @@
         </thead>
     </table>
     <h2>Upload image</h2>
-    <form action="<%=request.getContextPath()%>/uploadImageCandidate?id=<%=request.getParameter("idd")%>"
+    <form action="<%=request.getContextPath()%>/uploadImageCandidate?id=<%=request.getParameter("id")%>"
           method="post" enctype="multipart/form-data">
         <div class="checkbox">
             <input type="file" name="name">
