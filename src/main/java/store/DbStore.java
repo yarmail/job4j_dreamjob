@@ -35,7 +35,7 @@ import java.util.Properties;
  * Здесь выполняется обычный sql запрос.
  */
 public class DbStore implements Store {
-    private static final DbStore instance = new DbStore();
+    private static final DbStore INSTANCE = new DbStore();
 
     private final BasicDataSource pool = new BasicDataSource();
 
@@ -123,6 +123,7 @@ public class DbStore implements Store {
             e.printStackTrace();
         }
     }
+
     public Post findByIdPost(int id) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement("SELECT * FROM post WHERE id = ?")
