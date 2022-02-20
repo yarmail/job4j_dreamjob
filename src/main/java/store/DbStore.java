@@ -7,7 +7,6 @@ import model.Post;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,8 +34,6 @@ import java.util.Properties;
  * Здесь выполняется обычный sql запрос.
  */
 public class DbStore implements Store {
-    private static final DbStore INSTANCE = new DbStore();
-
     private final BasicDataSource pool = new BasicDataSource();
 
     private DbStore() {
