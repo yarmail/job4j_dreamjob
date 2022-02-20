@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="store.Store"%>
+<%@ page import="store.DbStore"%>
 <%@ page import="model.Candidate" %>
 
 <!doctype html>
@@ -26,7 +26,7 @@
     String id = request.getParameter("id");
     Candidate candidate = new Candidate(0, "");
     if (id != null) {
-        candidate = Store.instOf().findByIdCandidate(Integer.valueOf(id));
+        candidate = DbStore.instOf().findByIdCandidate(Integer.valueOf(id));
     }
 %>
 <div class="container pt-3">

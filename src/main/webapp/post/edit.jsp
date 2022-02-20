@@ -2,7 +2,7 @@
 To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="store.Store"%>
+<%@ page import="store.DbStore"%>
 <%@ page import="model.Post" %>
 
 <!doctype html>
@@ -48,6 +48,10 @@ To change this template use File | Settings | File Templates.
 +++++
 Откройте edit.jsp и поправьте там ссылку тоже.
 Было: .../post/save; Стало... /posts.do
++++++++
+!!!!
+Проблема после замены Store на StoreOld
+post = StoreOld.instOf().findByIdPost(Integer.valueOf(id));
 
 --%>
 
@@ -58,7 +62,7 @@ To change this template use File | Settings | File Templates.
     String id = request.getParameter("id");
     Post post = new Post(0, "");
     if (id != null) {
-        post = Store.instOf().findByIdPost(Integer.valueOf(id));
+        post = DbStore.instOf().findByIdPost(Integer.valueOf(id));
     }
 %>
 <div class="container pt-3">

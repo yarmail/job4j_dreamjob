@@ -1,6 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="store.Store"%>
-<%@ page import="model.Post" %>
 
 <!doctype html>
 <html lang="en">

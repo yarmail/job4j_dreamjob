@@ -1,7 +1,7 @@
 package servlet;
 
 import model.Candidate;
-import store.Store;
+import store.DbStore;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -39,7 +39,7 @@ public class CandidateServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServletException {
-        req.setAttribute("candidates", Store.instOf().findAllCandidates());
+        req.setAttribute("candidates", DbStore.instOf().findAllCandidates());
         req.getRequestDispatcher("candidates.jsp").forward(req, resp);
     }
 
@@ -47,7 +47,7 @@ public class CandidateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
         req.setCharacterEncoding("UTF-8");
-        Store.instOf().saveCandidate(
+        DbStore.instOf().saveCandidate(
                 new Candidate(Integer.valueOf(req.getParameter("id")),
                         req.getParameter("name")));
         resp.sendRedirect(req.getContextPath() + "/candidates.do");
