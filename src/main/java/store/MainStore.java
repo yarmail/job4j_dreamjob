@@ -19,6 +19,5 @@ public class MainStore {
         for (Candidate candidate : store.findAllCandidates()) {
             System.out.println(candidate.getId() + " " + candidate.getName());
         }
-
     }
 }

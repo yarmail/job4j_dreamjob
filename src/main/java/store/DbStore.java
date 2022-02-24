@@ -34,6 +34,8 @@ import org.slf4j.LoggerFactory;
  *
  * Создание вакансии.  private Post create
  * Здесь выполняется обычный sql запрос.
+ *
+ * (есть тесты)
  */
 public class DbStore implements Store {
     private final BasicDataSource pool = new BasicDataSource();

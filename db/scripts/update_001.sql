@@ -1,9 +1,9 @@
-create table post (
+create table if not exists post (
     id serial primary key,
     name text
 );
 
-create table candidate (
+create table if not exists candidate (
     id serial primary key,
     name text
 );
