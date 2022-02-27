@@ -85,4 +85,12 @@ ea37
         <servlet-name>UploadImageCandidateServlet</servlet-name>
         <url-pattern>/uploadImageCandidate</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>AuthServlet</servlet-name>
+        <servlet-class>servlet.AuthServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AuthServlet</servlet-name>
+        <url-pattern>/auth.do</url-pattern>
+    </servlet-mapping>
 </web-app>
