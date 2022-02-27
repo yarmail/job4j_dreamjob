@@ -10,9 +10,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class DbStoreTest {
-    Store store = DbStore.instOf();
-    Post post = new Post(0, "Java Job");
-    Candidate candidate = new Candidate(0, "New candidate");
+    private Store store = DbStore.instOf();
+    private Post post = new Post(0, "Java Job");
+    private Candidate candidate = new Candidate(0, "New candidate");
 
     @Before
     public void before() {
