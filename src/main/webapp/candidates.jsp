@@ -23,7 +23,7 @@
 </head>
 <body>
 <div class="container pt-3">
-
+    <jsp:include page="menu.jsp"/>
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">

@@ -7,7 +7,7 @@ taglib prefix="c" uri="http://java.sun.com/jstl/core"
 Сразу не заработало пришлось сделать другой импорт
 taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"
 --%>
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!doctype html>
@@ -40,14 +40,15 @@ JSTL - это по сути HTML теги с загрузкой данных и�
 Вывод значения post.
 <c:out value="${post.name}"/>
 
-Обратите внимание. JSTL не требует писать полный синтаксис вызова get.
+Обратите внимание. JSTL не требует
+писать полный синтаксис вызова get.
 --%>
 
     <title>Работа мечты</title>
 </head>
 <body>
 <div class="container pt-3">
-
+    <jsp:include page="menu.jsp"/>
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
