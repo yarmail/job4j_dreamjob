@@ -2,7 +2,7 @@ package store;
 
 import model.Candidate;
 import model.Post;
-
+import model.User;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 
@@ -76,8 +76,7 @@ public class DbStore implements Store {
     }
 
     /**
-     * Прописываем все операции над Post,
-     * типа CRUD
+     * Прописываем все операции над Post
      */
     private Post createPost(Post post) {
         try (Connection cn = pool.getConnection();
@@ -159,8 +158,7 @@ public class DbStore implements Store {
     }
 
     /**
-     * Прописываем все операции над Candidate,
-     * типа CRUD
+     * Прописываем все операции над Candidate
      */
     private Candidate createCandidate(Candidate candidate) {
         try (Connection cn = pool.getConnection();
@@ -240,5 +238,106 @@ public class DbStore implements Store {
             LOG.error(e.getMessage(), e);
         }
         return candidates;
+    }
+
+    /**
+     * Прописываем все операции над User
+     */
+    private User createUser(User user) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =
+                     cn.prepareStatement(
+                             "INSERT INTO users(name, email, password) VALUES (?, ?, ?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS)
+        ) {
+            ps.setString(1, user.getName());
+            ps.setString(1, user.getEmail());
+            ps.setString(1, user.getPassword());
+            ps.execute();
+            try (ResultSet id = ps.getGeneratedKeys()) {
+                if (id.next()) {
+                    user.setId(id.getInt(1));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return user;
+    }
+
+    private void updateUser(User user) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =
+                     cn.prepareStatement(
+                             "UPDATE users SET name = ?, email = ?, password = ?"
+                                     + "WHERE id = ? ")
+        ) {
+            ps.setString(1, user.getName());
+            ps.setString(1, user.getEmail());
+            ps.setString(1, user.getPassword());
+            ps.execute();
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+    }
+
+    public void saveUser(User user) {
+        if (user.getId() == 0) {
+            createUser(user);
+        } else {
+            updateUser(user);
+        }
+    }
+
+    public void deleteUser(int id) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("DELETE FROM users WHERE id = ? ")) {
+            ps.setInt(1, id);
+            ps.execute();
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+    }
+
+    public User findByIdUser(int id) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM users WHERE id = ?")
+        ) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    User user = new User();
+                    user.setId(rs.getInt("id"));
+                    user.setName(rs.getString("name"));
+                    user.setEmail(rs.getString("email"));
+                    user.setPassword(rs.getString("password"));
+                    return user;
+                }
+            }
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return null;
+    }
+
+    public Collection<User> findAllUser() {
+        List<User> users = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM users")
+        ) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    User user = new User();
+                    user.setId(rs.getInt("id"));
+                    user.setName(rs.getString("name"));
+                    user.setEmail(rs.getString("email"));
+                    user.setPassword(rs.getString("password"));
+                    users.add(user);
+                }
+            }
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return users;
     }
 }

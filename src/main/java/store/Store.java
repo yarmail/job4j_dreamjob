@@ -2,12 +2,10 @@ package store;
 
 import model.Post;
 import model.Candidate;
+import model.User;
 
 import java.util.Collection;
 
-/**
- * Сначала все методы Post, потом Candidate
- */
 public interface Store {
 
     void savePost(Post post);
@@ -17,6 +15,7 @@ public interface Store {
     Post findByIdPost(int id);
 
     Collection<Post> findAllPosts();
+/* --------------------------------- */
 
     void saveCandidate(Candidate candidate);
 
@@ -25,4 +24,13 @@ public interface Store {
     Candidate findByIdCandidate(int id);
 
     Collection<Candidate> findAllCandidates();
+/* --------------------------------- */
+
+    void saveUser(User user);
+
+    void deleteUser(int id);
+
+    User findByIdUser(int id);
+
+    Collection<User> findAllUser();
 }
