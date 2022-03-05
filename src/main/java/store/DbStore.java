@@ -340,4 +340,25 @@ public class DbStore implements Store {
         }
         return users;
     }
+
+    public User findByEmailUser (String email) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM users WHERE email = ?")
+        ) {
+            ps.setString(1, email);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    User user = new User();
+                    user.setId(rs.getInt("id"));
+                    user.setName(rs.getString("name"));
+                    user.setEmail(rs.getString("email"));
+                    user.setPassword(rs.getString("password"));
+                    return user;
+                }
+            }
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return null;
+    }
 }

@@ -30,7 +30,9 @@ public interface Store {
 
     void deleteUser(int id);
 
+    Collection<User> findAllUser();
+
     User findByIdUser(int id);
 
-    Collection<User> findAllUser();
+    User findByEmailUser(String email);
 }
