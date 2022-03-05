@@ -341,7 +341,7 @@ public class DbStore implements Store {
         return users;
     }
 
-    public User findByEmailUser (String email) {
+    public User findByEmailUser(String email) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement("SELECT * FROM users WHERE email = ?")
         ) {
