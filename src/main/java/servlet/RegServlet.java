@@ -21,10 +21,11 @@ public class RegServlet extends HttpServlet {
         if (nonNull(DbStore.instOf().findByEmailUser(email))) {
             req.setAttribute("error", "Пользователь с данным паролем уже зарегистрирован");
             req.getRequestDispatcher("reg.jsp").forward(req, resp);
+        } else {
+            User user = new User(0, name, email, password);
+            Store store = DbStore.instOf();
+            store.saveUser(user);
+            resp.sendRedirect(req.getContextPath() + "/login.jsp");
         }
-        User user = new User(0, name, email, password);
-        Store store = DbStore.instOf();
-        store.saveUser(user);
-        resp.sendRedirect(req.getContextPath() + "/login.jsp");
     }
 }
