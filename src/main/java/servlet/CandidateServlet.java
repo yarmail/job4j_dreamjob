@@ -1,7 +1,9 @@
 package servlet;
 
 import model.Candidate;
+import model.Post;
 import store.DbStore;
+import store.Store;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -34,22 +36,32 @@ import java.io.IOException;
  * мы просим сервер отправить другой запрос,
  * но уже к странице posts.jsp.
  *
+ * (есть тесты c использованием Mockito)
+ *
  */
 public class CandidateServlet extends HttpServlet {
 
+    private final Store store = DbStore.instOf();
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServletException {
-        req.setAttribute("candidates", DbStore.instOf().findAllCandidates());
-        req.getRequestDispatcher("candidates.jsp").forward(req, resp);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String edit = req.getParameter("edit");
+        String path = edit != null ? "/candidate/edit.jsp" : "candidates.jsp";
+        req.setAttribute("user", req.getSession().getAttribute("user"));
+        if (edit == null) {
+            req.setAttribute("candidates", store.findAllPosts());
+        }
+        req.getRequestDispatcher(path).forward(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("UTF-8");
-        DbStore.instOf().saveCandidate(
-                new Candidate(Integer.valueOf(req.getParameter("id")),
-                        req.getParameter("name")));
+        Candidate candidate = new Candidate(
+                Integer.parseInt(req.getParameter("id")),
+                req.getParameter("name")
+        );
+        store.saveCandidate(candidate);
         resp.sendRedirect(req.getContextPath() + "/candidates.do");
     }
 }

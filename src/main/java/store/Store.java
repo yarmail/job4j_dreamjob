@@ -14,6 +14,8 @@ public interface Store {
 
     Post findByIdPost(int id);
 
+    Post findByNamePost(String name);
+
     Collection<Post> findAllPosts();
 /* --------------------------------- */
 
@@ -22,6 +24,8 @@ public interface Store {
     void deleteCandidate(int id);
 
     Candidate findByIdCandidate(int id);
+
+    Candidate findByNameCandidate(String name);
 
     Collection<Candidate> findAllCandidates();
 /* --------------------------------- */

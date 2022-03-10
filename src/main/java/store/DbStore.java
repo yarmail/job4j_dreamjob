@@ -141,6 +141,22 @@ public class DbStore implements Store {
         return null;
     }
 
+    public Post findByNamePost(String name) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM post WHERE name = ?")
+        ) {
+            ps.setString(1, name);
+            try (ResultSet it = ps.executeQuery()) {
+                if (it.next()) {
+                    return new Post(it.getInt("id"), it.getString("name"));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return null;
+    }
+
     public Collection<Post> findAllPosts() {
         List<Post> posts = new ArrayList<>();
         try (Connection cn = pool.getConnection();
@@ -213,6 +229,22 @@ public class DbStore implements Store {
              PreparedStatement ps =  cn.prepareStatement("SELECT * FROM candidate WHERE id = (?)")
         ) {
             ps.setInt(1, id);
+            try (ResultSet it = ps.executeQuery()) {
+                if (it.next()) {
+                    return new Candidate(it.getInt("id"), it.getString("name"));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return null;
+    }
+
+    public Candidate findByNameCandidate(String name) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM candidate WHERE name = (?)")
+        ) {
+            ps.setString(1, name);
             try (ResultSet it = ps.executeQuery()) {
                 if (it.next()) {
                     return new Candidate(it.getInt("id"), it.getString("name"));

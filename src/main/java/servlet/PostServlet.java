@@ -2,6 +2,7 @@ package servlet;
 
 import model.Post;
 import store.DbStore;
+import store.Store;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -42,22 +43,32 @@ import java.io.IOException;
  * Обратите внимание в методе doPost тоже изменен адрес.
  * resp.sendRedirect(req.getContextPath() + "/posts.do");
  *
+ * (есть тесты c использованием Mockito)
+ *
  */
 public class PostServlet extends HttpServlet {
 
+    private final Store store = DbStore.instOf();
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, ServletException {
-        req.setAttribute("posts", DbStore.instOf().findAllPosts());
-        req.getRequestDispatcher("posts.jsp").forward(req, resp);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String edit = req.getParameter("edit");
+        String path = edit != null ? "/post/edit.jsp" : "posts.jsp";
+        req.setAttribute("user", req.getSession().getAttribute("user"));
+        if (edit == null) {
+            req.setAttribute("posts", store.findAllPosts());
+        }
+        req.getRequestDispatcher(path).forward(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("UTF-8");
-        DbStore.instOf().savePost(
-                new Post(Integer.valueOf(req.getParameter("id")),
-                        req.getParameter("name")));
+        Post post = new Post(
+                Integer.parseInt(req.getParameter("id")),
+                req.getParameter("name")
+        );
+        store.savePost(post);
         resp.sendRedirect(req.getContextPath() + "/posts.do");
     }
 }
