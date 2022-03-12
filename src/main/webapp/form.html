@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Bootstrap Example</title>
+    <title>Bootstrap form, table</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -14,7 +14,26 @@
     <h1>My First Bootstrap Page</h1>
     <p>This is some text.</p>
 </div>
+<!--
+2. Валидация формы JS. [#58531]
 
+1) для каждого из полей ввода добавьте атрибут id
+2) Дописать функцию validate - она должна пройти по всем
+полям ввода и получить у него value:
+3) и проверить. что это значение не равно '':
+4) В случае, если оно равно пустой строке,
+то необходимо вывести окно alert,
+в котором отразите сообщение о необходимости
+заполнить соответствующее поле:
+-->
+
+    <script>
+        function validate() {
+            if ($('name').val() === "") {alert("Введите имя")}
+            if ($('surname').val() === "") {alert("Введите фамилию")}
+            if ($('desc').val() === "") {alert("Введите описание")}
+        }
+    </script>
 <form>
     <div class="form-group">
         <label for="name">Имя</label>
@@ -38,10 +57,12 @@
         </label>
     </div>
     <div class="form-group">
-        <label for="description">Описание</label>
-        <input class="form-control" id="description">
+        <label for="desc">Описание</label>
+        <input class="form-control" id="desc">
     </div>
+    <button type="button" class="btn btn-default" onclick="return validate();">Submit</button>
 </form>
+
 <table class="table">
     <thead>
     <tr>
@@ -72,10 +93,5 @@
     </tr>
     </tbody>
 </table>
-
-
-
-
-
 </body>
 </html>
