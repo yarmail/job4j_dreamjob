@@ -29,9 +29,9 @@
 
     <script>
         function validate() {
-            if ($('name').val() === "") {alert("Введите имя")}
-            if ($('surname').val() === "") {alert("Введите фамилию")}
-            if ($('desc').val() === "") {alert("Введите описание")}
+            if ($('#name').val() === "") {alert("Введите имя")}
+            if ($('#surname').val() === "") {alert("Введите фамилию")}
+            if ($('#desc').val() === "") {alert("Введите описание")}
         }
     </script>
 <form>
@@ -60,7 +60,7 @@
         <label for="desc">Описание</label>
         <input class="form-control" id="desc">
     </div>
-    <button type="button" class="btn btn-default" onclick="return validate();">Submit</button>
+    <button type="button" class="btn btn-default" onclick="validate()">Submit</button>
 </form>
 
 <table class="table">
