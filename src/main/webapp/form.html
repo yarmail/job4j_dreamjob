@@ -25,6 +25,10 @@
 то необходимо вывести окно alert,
 в котором отразите сообщение о необходимости
 заполнить соответствующее поле:
+
+В моем варианте все делается без проверок
+Если форма не заполнена выполнить функцию
+addRow() не удастся
 -->
 
     <script>
@@ -44,18 +48,6 @@
         <label for="surname">Фамилия</label>
         <input class="form-control" id="surname">
     </div>
-    <div class="form-check">
-        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-        <label class="form-check-label" for="flexRadioDefault1">
-            Муж
-        </label>
-    </div>
-    <div class="form-check">
-        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-        <label class="form-check-label" for="flexRadioDefault2">
-            Жен
-        </label>
-    </div>
     <div class="form-group">
         <label for="desc">Описание</label>
         <input class="form-control" id="desc">
@@ -63,7 +55,35 @@
     <button type="button" class="btn btn-default" onclick="validate()">Submit</button>
 </form>
 
-<table class="table">
+<!--
+3. Заполнить динамически таблицу. [#58533]
+Добавить в таблицу новую строку
+
+Идея такая: если заполняется форма значениями,
+то потом эти значения попадают в таблицу
+при помощи функции function addRow()
+
+
+Допустим есть таблица с id='table'
+<table class="table" id="table">
+
+Добавим кнопку и повесим на ее функцию onclick="addRow()":
+<button type="button" class="btn btn-default" onclick="addRow()">Add row</button>
+
+Получаем ссылку на последний элемент в таблице.
+и после него добавляем html
+$('#table tr:last').after('<tr><td>' + name +'</td></tr>');
+
+-->
+
+<script>
+    function addRow() {
+        const name = $('#name').val();
+        $('#table tr:last').after('<tr><td>' + name +'</td></tr>');
+    }
+</script>
+
+<table class="table" id="table">
     <thead>
     <tr>
         <th scope="col">#</th>
@@ -93,5 +113,6 @@
     </tr>
     </tbody>
 </table>
+<button type="button" class="btn btn-default" onclick="addRow()">Add row</button>
 </body>
 </html>
