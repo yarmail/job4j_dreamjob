@@ -46,32 +46,81 @@ alert(data);
 done(function(data) {
 $('#response').html(data);
 
+Обновили функцию sendGreeting() c
+учетом сериализации и json
+
+Особое внимание здесь стоит уделить:
+- методу JSON.stringify(). Он позволяет
+преобразовать JavaScript объект в JSON;
+- dataType: 'json' указывает, что мы хотим
+получить в ответе объект, а десериализацию
+нужно производить из формата JSON. Таким образом,
+в done в качестве data приходит объект.
+
+При успешном выполнении запроса полученный email
+добавляется в список HTML.
+----
+$(document).ready(function()
+Этот код выполняется сразу после того,
+как страница будет загружена. Суть его заключается
+в запросе списка почтовых адресов.
+Это поведение необходимо, чтобы данные не пропадали
+при перезагрузке страницы. Делается GET запрос,
+в ответе получается список объектов, по которому
+происходит итерирование и добавление элементов в список ul.
+
+Довольно долго значения не добавлялись в
+список под формой. Помогла команда .reset формы.
+Возможно её надо добавить в код
 -->
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
 <script>
     function sendGreeting() {
         $.ajax({
-            type: 'GET',
+            type: 'POST',
             url: 'http://localhost:8080/dreamjob/greet',
-            data: 'name=' + $('#email').val(),
-            dataType: 'text'
-        }).done(function(data) {
-            $('#response').html(data);
-        }).fail(function(err){
-            alert(err);
+            data: JSON.stringify({
+                name: $('#email').val()
+            }),
+            dataType: 'json'
+        }).done(function (data) {
+            $('#emailList li:last').append(`<li>${data.name}</li>`)
+            $('form-greeter').reset();
+        }).fail(function (err) {
+            console.log(err);
         });
     }
+
+    $(document).ready(function() {
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:8080/dreamjob/greet',
+            dataType: 'json'
+        }).done(function (data) {
+            for (var email of data) {
+                $('#emailList li:last').append(`<li>${email.name}</li>`)
+            }
+        }).fail(function (err) {
+            console.log(err);
+        });
+    });
+
 </script>
 <body>
 <div class="container">
-    <form>
-        <div id="response"></div>
-        <div class="form-group">
-            <label for="email" style="font-weight: bold">Email address</label>
-            <input type="text" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+    <form id="form-greeter">
+        <div class="form-group" >
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
+                   placeholder="Enter email">
         </div>
         <button type="button" class="btn btn-primary" onclick="sendGreeting()">Submit</button>
     </form>
+    <br>
+    Почты:
+    <ul id="emailList">
+        <li></li>
+    </ul>
 </div>
 </body>
 </html>
