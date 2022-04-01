@@ -1,7 +1,6 @@
 package servlet;
 
 import model.Candidate;
-import model.Post;
 import store.DbStore;
 import store.Store;
 
@@ -49,7 +48,7 @@ public class CandidateServlet extends HttpServlet {
         String path = edit != null ? "/candidate/edit.jsp" : "candidates.jsp";
         req.setAttribute("user", req.getSession().getAttribute("user"));
         if (edit == null) {
-            req.setAttribute("candidates", store.findAllPosts());
+            req.setAttribute("candidates", store.findAllCandidates());
         }
         req.getRequestDispatcher(path).forward(req, resp);
     }
@@ -59,7 +58,9 @@ public class CandidateServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         Candidate candidate = new Candidate(
                 Integer.parseInt(req.getParameter("id")),
-                req.getParameter("name")
+                req.getParameter("name"),
+                Integer.parseInt(req.getParameter("city"))
+
         );
         store.saveCandidate(candidate);
         resp.sendRedirect(req.getContextPath() + "/candidates.do");

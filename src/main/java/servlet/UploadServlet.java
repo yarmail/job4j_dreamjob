@@ -4,7 +4,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import settings.Settings;
+import settings.ImagePath;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -66,7 +66,7 @@ public class UploadServlet extends HttpServlet {
         ServletFileUpload upload = new ServletFileUpload(factory);
         try {
             List<FileItem> items = upload.parseRequest(req);
-            File folder = new File(Settings.getImagePath());
+            File folder = new File(ImagePath.getImagePath());
             if (!folder.exists()) {
                 folder.mkdir();
             }

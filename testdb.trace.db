@@ -1,52 +1,12 @@
-2022-02-24 03:32:25 jdbc[3]: exception
+2022-03-24 12:18:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "DATABASECHANGELOGLOCK" не найдена
 Table "DATABASECHANGELOGLOCK" not found; SQL statement:
 SELECT COUNT(*) FROM DATABASECHANGELOGLOCK [42102-200]
-2022-02-24 03:53:11 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "POST" не найдена
-Table "POST" not found; SQL statement:
-INSERT INTO post(name) VALUES (?) [42102-200]
-2022-02-24 03:53:11 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "POST" не найдена
-Table "POST" not found; SQL statement:
-SELECT * FROM post WHERE id = ? [42102-200]
-2022-02-24 03:56:05 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "POST" не найдена
-Table "POST" not found; SQL statement:
-INSERT INTO post(name) VALUES (?) [42102-200]
-2022-02-24 03:56:05 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "POST" не найдена
-Table "POST" not found; SQL statement:
-SELECT * FROM post WHERE id = ? [42102-200]
-2022-02-24 04:08:15 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "POST" не найдена
-Table "POST" not found; SQL statement:
-INSERT INTO post(name) VALUES (?) [42102-200]
-2022-02-24 04:08:15 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "POST" не найдена
-Table "POST" not found; SQL statement:
-SELECT * FROM post WHERE id = ? [42102-200]
-2022-02-24 04:12:09 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "POST" не найдена
-Table "POST" not found; SQL statement:
-INSERT INTO post(name) VALUES (?) [42102-200]
-2022-02-24 04:12:09 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "POST" не найдена
-Table "POST" not found; SQL statement:
-SELECT * FROM post WHERE id = ? [42102-200]
-2022-02-24 04:20:38 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "POST" не найдена
-Table "POST" not found; SQL statement:
-INSERT INTO post(name) VALUES (?) [42102-200]
-2022-02-24 04:20:38 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "POST" не найдена
-Table "POST" not found; SQL statement:
-SELECT * FROM post WHERE id = ? [42102-200]
-2022-02-24 04:22:16 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "POST" не найдена
-Table "POST" not found; SQL statement:
-INSERT INTO post(name) VALUES (?) [42102-200]
-2022-02-24 04:22:16 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "POST" не найдена
-Table "POST" not found; SQL statement:
-SELECT * FROM post WHERE id = ? [42102-200]
+2022-03-24 12:18:02 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "CITY" не найдена
+Table "CITY" not found; SQL statement:
+create table if not exists post (
+    id serial primary key,
+    name text,
+    created timestamp
+); [42102-200]

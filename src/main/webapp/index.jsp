@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 
 <!doctype html>
@@ -43,7 +44,7 @@ To change this template use File | Settings | File Templates.
     <title>Работа мечты</title>
 </head>
 <body>
-<div class="container">
+<div class="container pt-3">
     <jsp:include page="menu.jsp"/>
     <div class="row">
         <div class="card" style="width: 100%">
@@ -51,6 +52,22 @@ To change this template use File | Settings | File Templates.
                 Сегодняшние вакансии.
             </div>
             <div class="card-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Названия</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${lastPosts}" var="post">
+                        <tr>
+                            <td>
+                                <a><c:out value="${post.name}"/></a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -60,6 +77,22 @@ To change this template use File | Settings | File Templates.
                 Сегодняшние кандидаты.
             </div>
             <div class="card-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Имя</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${lastCandidates}" var="can">
+                        <tr>
+                            <td>
+                                <a><c:out value="${can.name}"/></a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

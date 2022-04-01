@@ -1,27 +1,37 @@
 package model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
  * Вакансия
+ *
+ * Примечания
+ * Для обозначения даты можно использовать
+ * java.time.LocalDateTime
+ * this.created = LocalDateTime.now();
+ * или например
+ * import java.sql.Timestamp;
+ * import java.time.Instant;
+ * this.created = Timestamp.from(Instant.now());
  */
 public class Post {
     private int id;
     private String name;
     private String description;
-    private Date created;
+    private LocalDateTime created;
 
-    public Post(int id, String name, String description, Date created) {
+    public Post(int id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.created = created;
+        this.created = LocalDateTime.now();
     }
 
     public Post(int id, String name) {
         this.id = id;
         this.name = name;
+        this.created = LocalDateTime.now();
     }
 
     public int getId() {
@@ -48,11 +58,11 @@ public class Post {
         this.description = description;
     }
 
-    public Date getCreated() {
-        return created;
+    public LocalDateTime getCreated() {
+        return this.created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(LocalDateTime created) {
         this.created = created;
     }
 

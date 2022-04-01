@@ -8,7 +8,6 @@ import model.Candidate;
 import model.Post;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -27,12 +26,12 @@ public class StoreOld {
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
 
     private StoreOld() {
-        posts.put(1, new Post(1, "Junior Java Job", "desc", new Date()));
-        posts.put(2, new Post(2, "Middle Java Job", "desc", new Date()));
-        posts.put(3, new Post(3, "Senior Java Job", "desc", new Date()));
-        candidates.put(1, new Candidate(1, "Junior Java"));
-        candidates.put(2, new Candidate(2, "Middle Java"));
-        candidates.put(3, new Candidate(3, "Senior Java"));
+        posts.put(1, new Post(1, "Junior Java Job"));
+        posts.put(2, new Post(2, "Middle Java Job"));
+        posts.put(3, new Post(3, "Senior Java Job"));
+        candidates.put(1, new Candidate(1, "Junior Java", 1));
+        candidates.put(2, new Candidate(2, "Middle Java", 2));
+        candidates.put(3, new Candidate(3, "Senior Java", 3));
     }
 
     public static StoreOld instOf() {

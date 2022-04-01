@@ -1,6 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ page import="store.DbStore"%>
-<%@ page import="model.Candidate" %>
+<%@ page import="model.Candidate"%>
 
 <!doctype html>
 <html lang="en">
@@ -24,9 +24,9 @@
 <body>
 <%
     String id = request.getParameter("id");
-    Candidate candidate = new Candidate(0, "");
+    Candidate candidate = new Candidate(0, "", 1);
     if (id != null) {
-        candidate = DbStore.instOf().findByIdCandidate(Integer.valueOf(id));
+        candidate = DbStore.instOf().findByIdCandidate(Integer.parseInt(id));
     }
 %>
 <div class="container pt-3">

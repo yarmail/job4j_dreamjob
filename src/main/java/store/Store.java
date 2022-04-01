@@ -1,5 +1,6 @@
 package store;
 
+import model.City;
 import model.Post;
 import model.Candidate;
 import model.User;
@@ -17,6 +18,8 @@ public interface Store {
     Post findByNamePost(String name);
 
     Collection<Post> findAllPosts();
+
+    Collection<Post> findLastPosts();
 /* --------------------------------- */
 
     void saveCandidate(Candidate candidate);
@@ -28,6 +31,8 @@ public interface Store {
     Candidate findByNameCandidate(String name);
 
     Collection<Candidate> findAllCandidates();
+
+    Collection<Candidate> findLastCandidates();
 /* --------------------------------- */
 
     void saveUser(User user);
@@ -39,4 +44,9 @@ public interface Store {
     User findByIdUser(int id);
 
     User findByEmailUser(String email);
+/*------------------------------------- */
+
+    public City findCityById(int id);
+
+    public Collection<City> findAllCities();
 }

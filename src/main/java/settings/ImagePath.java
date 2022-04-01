@@ -5,13 +5,13 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * Настройки
- * Пока работаем с файлом resource/app.properties
+ * Путь к фото на резюме
+ *
  */
-public class Settings {
+public class ImagePath {
     private static Properties properties = new Properties();
     private static ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-    private static InputStream is = classLoader.getResourceAsStream("app.properties");
+    private static InputStream is = classLoader.getResourceAsStream("img.properties");
 
     static {
         try {

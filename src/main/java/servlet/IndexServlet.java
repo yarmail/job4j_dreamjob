@@ -1,5 +1,8 @@
 package servlet;
 
+import store.DbStore;
+import store.Store;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,11 +32,22 @@ import java.io.IOException;
  * В request и response можно добавить информацию,
  * для отображения на JSP. Мы это покажем ниже.
  *
- *
+ * ----
+ * Подготовил в БД соотвествующие методы, для показа
+ * последних кандидатов и вакакнсии
+ * findLastCandidates() и findLastPosts()
+ * В учебных целях заменил их на показ всех
+ * кандидатов и вакансий
  */
+
 public class IndexServlet extends HttpServlet {
+
+    private final Store store = DbStore.instOf();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        req.setAttribute("lastCandidates", store.findAllCandidates());
+        req.setAttribute("lastPosts", store.findAllPosts());
         req.getRequestDispatcher("index.jsp").forward(req, resp);
     }
 }

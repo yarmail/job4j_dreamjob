@@ -22,6 +22,36 @@ ea37
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
     <display-name>Archetype Created Web Application</display-name>
+<!--
+ФИЛЬТРЫ
+Предположим, что на страницу posts.do может переходить
+только авторизованный пользователь.
+Тогда в нашем приложении дырка в безопасности.
+Чтобы её устранить мы будем фильтровать все запросы.
+Если запрос не связан с пользователем,
+то будем перенаправлять такой запрос на страницу авторизации.
+Чтобы этого добиться в Java используется
+javax.servlet.Filter интерфейс.
+Здесь используется маска *.do. *.do
+- это дань старому фреймворку Struts.
+Традиция именовать контроллеры осталась.
+Почему нельзя фильтровать все запросы через * ?
+В этом случае мы не сможем обрабатывать статические страницы,
+картинки, таблицы стилей. Для них можно использовать другой фильтр.
+
+-->
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>filter.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>
+
+<!--
+СЕРВЛЕТЫ
+-->
 
     <servlet>
         <servlet-name>IndexServlet</servlet-name>
@@ -56,7 +86,7 @@ ea37
     </servlet>
     <servlet-mapping>
         <servlet-name>DownloadServlet</servlet-name>
-        <url-pattern>/download</url-pattern>
+        <url-pattern>/download.do</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -65,7 +95,7 @@ ea37
     </servlet>
     <servlet-mapping>
         <servlet-name>UploadServlet</servlet-name>
-        <url-pattern>/upload</url-pattern>
+        <url-pattern>/upload.do</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -74,16 +104,7 @@ ea37
     </servlet>
     <servlet-mapping>
         <servlet-name>DeleteServlet</servlet-name>
-        <url-pattern>/deleteImage</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>UploadImageCandidateServlet</servlet-name>
-        <servlet-class>servlet.UploadImageCandidateServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>UploadImageCandidateServlet</servlet-name>
-        <url-pattern>/uploadImageCandidate</url-pattern>
+        <url-pattern>/delete.do</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -104,15 +125,6 @@ ea37
         <url-pattern>/logout.do</url-pattern>
     </servlet-mapping>
 
-    <filter>
-        <filter-name>AuthFilter</filter-name>
-        <filter-class>filter.AuthFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>AuthFilter</filter-name>
-        <url-pattern>*.do</url-pattern>
-    </filter-mapping>
-
     <servlet>
         <servlet-name>RegServlet</servlet-name>
         <servlet-class>servlet.RegServlet</servlet-class>
@@ -129,5 +141,14 @@ ea37
     <servlet-mapping>
         <servlet-name>GreetingServlet</servlet-name>
         <url-pattern>/greet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CityServlet</servlet-name>
+        <servlet-class>servlet.CityServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CityServlet</servlet-name>
+        <url-pattern>/city</url-pattern>
     </servlet-mapping>
 </web-app>

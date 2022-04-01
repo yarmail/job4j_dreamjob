@@ -1,6 +1,7 @@
 package store;
 
 import model.Candidate;
+import model.City;
 import model.Post;
 import model.User;
 
@@ -11,6 +12,7 @@ import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -77,13 +79,16 @@ public class DbStore implements Store {
 
     /**
      * Прописываем все операции над Post
+     * (save - public; create, update - private)
      */
     private Post createPost(Post post) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("INSERT INTO post(name) VALUES (?)",
+             PreparedStatement ps =  cn.prepareStatement("INSERT INTO post(name, created) VALUES (?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
+            Timestamp created = Timestamp.valueOf(post.getCreated());
             ps.setString(1, post.getName());
+            ps.setTimestamp(2, created);
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
@@ -98,8 +103,9 @@ public class DbStore implements Store {
 
     private void updatePost(Post post) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("UPDATE post SET "
-                     + "name=(?) WHERE id=(?)")) {
+             PreparedStatement ps = cn.prepareStatement(
+                     "UPDATE post SET name=(?) WHERE id=(?)")
+        ) {
             ps.setString(1, post.getName());
             ps.setInt(2, post.getId());
             ps.execute();
@@ -108,6 +114,7 @@ public class DbStore implements Store {
         }
     }
 
+    @Override
     public void savePost(Post post) {
         if (post.getId() == 0) {
             createPost(post);
@@ -116,8 +123,12 @@ public class DbStore implements Store {
         }
     }
 
+    @Override
     public void deletePost(int id) {
-        try (Connection cn = pool.getConnection(); PreparedStatement ps = cn.prepareStatement("DELETE FROM post WHERE id = (?)")) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement(
+                     "DELETE FROM post WHERE id = (?)"
+             )) {
             ps.setInt(1, id);
             ps.execute();
         } catch (Exception e) {
@@ -125,10 +136,12 @@ public class DbStore implements Store {
         }
     }
 
+    @Override
     public Post findByIdPost(int id) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM post WHERE id = ?")
-        ) {
+             PreparedStatement ps =  cn.prepareStatement(
+                     "SELECT * FROM post WHERE id = ?"
+             )) {
             ps.setInt(1, id);
             try (ResultSet it = ps.executeQuery()) {
                 if (it.next()) {
@@ -141,10 +154,12 @@ public class DbStore implements Store {
         return null;
     }
 
+    @Override
     public Post findByNamePost(String name) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM post WHERE name = ?")
-        ) {
+             PreparedStatement ps =  cn.prepareStatement(
+                     "SELECT * FROM post WHERE name = ?"
+             )) {
             ps.setString(1, name);
             try (ResultSet it = ps.executeQuery()) {
                 if (it.next()) {
@@ -157,11 +172,13 @@ public class DbStore implements Store {
         return null;
     }
 
+    @Override
     public Collection<Post> findAllPosts() {
         List<Post> posts = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM post")
-        ) {
+             PreparedStatement ps =  cn.prepareStatement(
+                     "SELECT * FROM post"
+             )) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
                     posts.add(new Post(it.getInt("id"), it.getString("name")));
@@ -173,15 +190,40 @@ public class DbStore implements Store {
         return posts;
     }
 
+    @Override
+    public Collection<Post> findLastPosts() {
+        List<Post> posts = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement(
+                     "SELECT * FROM post "
+                             + "WHERE created "
+                             + "BETWEEN CURRENT_TIMESTAMP - INTERVAL '1 DAY' "
+                             + "AND CURRENT_TIMESTAMP;"
+             )) {
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    posts.add(new Post(it.getInt("id"), it.getString("name")));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Exception during connection", e);
+        }
+        return posts;
+    }
+
     /**
      * Прописываем все операции над Candidate
      */
     private Candidate createCandidate(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("INSERT INTO candidate(name) VALUES (?)",
-                     PreparedStatement.RETURN_GENERATED_KEYS)
-        ) {
+             PreparedStatement ps =  cn.prepareStatement(
+                     "INSERT INTO candidate(name, city_id, created) VALUES (?, ?, ?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS
+             )) {
+            Timestamp created = Timestamp.valueOf(candidate.getCreated());
             ps.setString(1, candidate.getName());
+            ps.setInt(2, candidate.getCityId());
+            ps.setTimestamp(3, created);
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
@@ -196,16 +238,19 @@ public class DbStore implements Store {
 
     private void updateCandidate(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("UPDATE candidate SET "
-                     + "name=(?) WHERE id=(?)")) {
+             PreparedStatement ps = cn.prepareStatement(
+                     "UPDATE candidate SET name=(?) WHERE id=(?)"
+             )) {
             ps.setString(1, candidate.getName());
-            ps.setInt(2, candidate.getId());
+            ps.setInt(2, candidate.getCityId());
+            ps.setInt(3, candidate.getId());
             ps.execute();
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
         }
     }
 
+    @Override
     public void saveCandidate(Candidate candidate) {
         if (candidate.getId() == 0) {
             createCandidate(candidate);
@@ -214,6 +259,7 @@ public class DbStore implements Store {
         }
     }
 
+    @Override
     public void deleteCandidate(int id) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("DELETE FROM candidate WHERE id = (?)")) {
@@ -224,14 +270,20 @@ public class DbStore implements Store {
         }
     }
 
+    @Override
     public Candidate findByIdCandidate(int id) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM candidate WHERE id = (?)")
-        ) {
+             PreparedStatement ps =  cn.prepareStatement(
+                     "SELECT * FROM candidate WHERE id = (?)"
+             )) {
             ps.setInt(1, id);
             try (ResultSet it = ps.executeQuery()) {
                 if (it.next()) {
-                    return new Candidate(it.getInt("id"), it.getString("name"));
+                    return new Candidate(
+                            it.getInt("id"),
+                            it.getString("name"),
+                            it.getInt("city_id")
+                    );
                 }
             }
         } catch (Exception e) {
@@ -240,14 +292,20 @@ public class DbStore implements Store {
         return null;
     }
 
+    @Override
     public Candidate findByNameCandidate(String name) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM candidate WHERE name = (?)")
-        ) {
+             PreparedStatement ps =  cn.prepareStatement(
+                     "SELECT * FROM candidate WHERE name = ?"
+             )) {
             ps.setString(1, name);
             try (ResultSet it = ps.executeQuery()) {
                 if (it.next()) {
-                    return new Candidate(it.getInt("id"), it.getString("name"));
+                    return new Candidate(
+                            it.getInt("id"),
+                            it.getString("name"),
+                            it.getInt("city_id")
+                    );
                 }
             }
         } catch (Exception e) {
@@ -256,6 +314,7 @@ public class DbStore implements Store {
         return null;
     }
 
+    @Override
     public Collection<Candidate> findAllCandidates() {
         List<Candidate> candidates = new ArrayList<>();
         try (Connection cn = pool.getConnection();
@@ -263,11 +322,41 @@ public class DbStore implements Store {
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
-                    candidates.add(new Candidate(it.getInt("id"), it.getString("name")));
+                    candidates.add(
+                            new Candidate(
+                                    it.getInt("id"),
+                                    it.getString("name"),
+                                    it.getInt("city_id")
+                            ));
                 }
             }
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
+        }
+        return candidates;
+    }
+
+    @Override
+    public Collection<Candidate> findLastCandidates() {
+        List<Candidate> candidates = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement(
+                     "SELECT * FROM candidate "
+                             + "WHERE created "
+                             + "BETWEEN CURRENT_TIMESTAMP - INTERVAL '1 DAY' "
+                             + "AND CURRENT_TIMESTAMP ")
+        ) {
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    candidates.add(
+                            new Candidate(
+                                    it.getInt("id"),
+                                    it.getString("name"),
+                                    it.getInt("city_id")));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Exception during connection", e);
         }
         return candidates;
     }
@@ -313,6 +402,7 @@ public class DbStore implements Store {
         }
     }
 
+    @Override
     public void saveUser(User user) {
         if (user.getId() == 0) {
             createUser(user);
@@ -321,6 +411,7 @@ public class DbStore implements Store {
         }
     }
 
+    @Override
     public void deleteUser(int id) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement("DELETE FROM users WHERE id = ? ")) {
@@ -331,6 +422,7 @@ public class DbStore implements Store {
         }
     }
 
+    @Override
     public User findByIdUser(int id) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement("SELECT * FROM users WHERE id = ?")
@@ -352,6 +444,7 @@ public class DbStore implements Store {
         return null;
     }
 
+    @Override
     public Collection<User> findAllUser() {
         List<User> users = new ArrayList<>();
         try (Connection cn = pool.getConnection();
@@ -373,6 +466,7 @@ public class DbStore implements Store {
         return users;
     }
 
+    @Override
     public User findByEmailUser(String email) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement("SELECT * FROM users WHERE email = ?")
@@ -392,5 +486,50 @@ public class DbStore implements Store {
             LOG.error(e.getMessage(), e);
         }
         return null;
+    }
+
+    /**
+     * Операции над City
+     */
+    @Override
+    public City findCityById(int id) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement(
+                     "SELECT * FROM city WHERE id = ?"
+             )) {
+            ps.setInt(1, id);
+            try (ResultSet it = ps.executeQuery()) {
+                if (it.next()) {
+                    return new City(
+                            it.getInt("id"),
+                            it.getString("name")
+                    );
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Exception during connection", e);
+        }
+        return null;
+    }
+
+    @Override
+    public Collection<City> findAllCities() {
+        List<City> cities = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement(
+                     "SELECT * FROM city"
+             )) {
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    cities.add(new City(
+                            it.getInt("id"),
+                            it.getString("name")
+                    ));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("Exception during connection", e);
+        }
+        return cities;
     }
 }

@@ -45,14 +45,14 @@
                                 </a>
                                     <c:out value="${candidate.name}"/>
                                     <c:out value="${candidate.id}"/>
-                                <img src="<c:url value='/download?name=${candidate.id}'/>" width="100px" height="100px"/>
+                                <img src="<c:url value='/download.do?name=${candidate.id}'/>" width="100px" height="100px"/>
 
                             <td>
                                 <form action="<c:url value='/candidate/PhotoUpload.jsp?id=${candidate.id}'/>" method="post" enctype="multipart/form-data">
                                     <button type="submit" class="btn btn-default">Добавить</button>
                                 </form>
 
-                                <form action="<c:url value='/deleteImage?id=${candidate.id}'/>" method="post" enctype="multipart/form-data">
+                                <form action="<c:url value='/delete.do?id=${candidate.id}'/>" method="post" enctype="multipart/form-data">
                                     <button type="submit" class="btn btn-default">Удалить</button>
                                 </form>
                             </td>

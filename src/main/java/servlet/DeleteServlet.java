@@ -1,6 +1,6 @@
 package servlet;
 
-import settings.Settings;
+import settings.ImagePath;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,13 +10,16 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
+/**
+ * DeleteCandidate?
+ */
 public class DeleteServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         File fileToDelete = null;
         String nameForDelete = req.getParameter("id");
         System.out.printf("******" + nameForDelete);
-        for (File file: new File(Settings.getImagePath()).listFiles()) {
+        for (File file: new File(ImagePath.getImagePath()).listFiles()) {
             if (nameForDelete.equals(file.getName())) {
                 fileToDelete = file.getAbsoluteFile();
             }
