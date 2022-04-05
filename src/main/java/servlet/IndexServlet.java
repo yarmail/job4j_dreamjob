@@ -48,6 +48,6 @@ public class IndexServlet extends HttpServlet {
         final Store store = DbStore.instOf();
         req.setAttribute("lastCandidates", store.findAllCandidates());
         req.setAttribute("lastPosts", store.findAllPosts());
-        req.getRequestDispatcher("index.jsp").forward(req, resp);
+        req.getRequestDispatcher("WEB-INF/index.jsp").forward(req, resp);
     }
 }

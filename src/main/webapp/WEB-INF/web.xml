@@ -40,6 +40,9 @@ javax.servlet.Filter интерфейс.
 картинки, таблицы стилей. Для них можно использовать другой фильтр.
 
 -->
+
+<!-- Фильтры -->
+
     <filter>
         <filter-name>AuthFilter</filter-name>
         <filter-class>filter.AuthFilter</filter-class>
@@ -49,9 +52,7 @@ javax.servlet.Filter интерфейс.
         <url-pattern>*.do</url-pattern>
     </filter-mapping>
 
-<!--
-СЕРВЛЕТЫ
--->
+<!-- Сервлеты -->
 
     <servlet>
         <servlet-name>IndexServlet</servlet-name>
@@ -59,7 +60,7 @@ javax.servlet.Filter интерфейс.
     </servlet>
     <servlet-mapping>
         <servlet-name>IndexServlet</servlet-name>
-        <url-pattern>/index.do</url-pattern>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
     <servlet>
