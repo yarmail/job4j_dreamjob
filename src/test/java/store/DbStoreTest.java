@@ -10,7 +10,6 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-@Ignore ("Почему то перестал работать тест")
 public class DbStoreTest {
     private Store store = DbStore.instOf();
     private Post post = new Post(0, "Java Job");
