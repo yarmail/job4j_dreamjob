@@ -1,10 +1,13 @@
 package servlet;
 
+import model.Candidate;
+import settings.ImagePath;
+
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import settings.ImagePath;
+import store.DbStore;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -12,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -48,12 +52,11 @@ import java.util.List;
 public class UploadServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<String> images = new ArrayList<>();
-        for (File name : new File("c:\\images\\").listFiles()) {
-            images.add(name.getName());
-        }
-        req.setAttribute("images", images);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/upload.jsp");
+        int id = Integer.parseInt(req.getParameter("id"));
+        Candidate candidate = DbStore.instOf().findByIdCandidate(id);
+        req.setAttribute("candidate", candidate);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/photoUpload.jsp");
+        req.setAttribute("user", req.getSession().getAttribute("user"));
         dispatcher.forward(req, resp);
     }
 

@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 /**
@@ -41,7 +42,7 @@ public class Candidate {
         this.id = id;
         this.name = name;
         this.cityId = cityId;
-        this.created = LocalDateTime.now();
+        this.created = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
     }
 
     public int getId() {

@@ -48,7 +48,7 @@
                                 <img src="<c:url value='/download.do?name=${candidate.id}'/>" width="100px" height="100px"/>
 
                             <td>
-                                <form action="<c:url value='/candidate/PhotoUpload.jsp?id=${candidate.id}'/>" method="post" enctype="multipart/form-data">
+                                <form action="<c:url value='/photoUpload.jsp?id=${candidate.id}'/>" method="post" enctype="multipart/form-data">
                                     <button type="submit" class="btn btn-default">Добавить</button>
                                 </form>
 

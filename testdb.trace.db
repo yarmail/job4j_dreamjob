@@ -1,12 +1,4 @@
-2022-03-24 12:18:00 jdbc[3]: exception
+2022-04-07 14:16:19 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "DATABASECHANGELOGLOCK" не найдена
 Table "DATABASECHANGELOGLOCK" not found; SQL statement:
 SELECT COUNT(*) FROM DATABASECHANGELOGLOCK [42102-200]
-2022-03-24 12:18:02 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "CITY" не найдена
-Table "CITY" not found; SQL statement:
-create table if not exists post (
-    id serial primary key,
-    name text,
-    created timestamp
-); [42102-200]

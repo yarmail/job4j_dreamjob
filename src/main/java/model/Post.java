@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 /**
@@ -14,6 +15,14 @@ import java.util.Objects;
  * import java.sql.Timestamp;
  * import java.time.Instant;
  * this.created = Timestamp.from(Instant.now());
+ *
+ * Пробуем округлить время до секунд, чтобы при
+ * двойном повторном запросе в тесте
+ * Объекты были равны.
+ * Если не округлять - объекты получаются разными
+ * может быть от округления или по другой причине
+ * this.created = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)
+ *
  */
 public class Post {
     private int id;
@@ -25,7 +34,7 @@ public class Post {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.created = LocalDateTime.now();
+        this.created = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
     }
 
     public Post(int id, String name) {
@@ -84,5 +93,14 @@ public class Post {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, description, created);
+    }
+
+    @Override
+    public String toString() {
+        return "Post{"
+                + "id=" + id
+                + ", name='" + name + '\''
+                + ", description='" + description + '\''
+                + ", created=" + created + '}';
     }
 }
