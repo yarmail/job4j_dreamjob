@@ -41,7 +41,10 @@ javax.servlet.Filter интерфейс.
 
 -->
 
-<!-- Фильтры -->
+<!--
+Фильтр AuthFilter
+Некоторые запросы без авторизации не пропускать
+-->
 
     <filter>
         <filter-name>AuthFilter</filter-name>
@@ -50,6 +53,18 @@ javax.servlet.Filter интерфейс.
     <filter-mapping>
         <filter-name>AuthFilter</filter-name>
         <url-pattern>*.do</url-pattern>
+    </filter-mapping>
+
+<!-- Фильтр CORS
+разрешить веб-странице делать запросы из других доменов.
+-->
+    <filter>
+        <filter-name>CORSFilter</filter-name>
+        <filter-class>filter.CORSFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CORSFilter</filter-name>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
 
 <!-- Сервлеты -->
